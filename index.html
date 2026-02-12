@@ -5,9 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3 Meses Contigo 💓</title>
     <style>
+        /* Botón de control de música */
+.control-musica {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 0.8rem 1.2rem;
+  border: 0;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #8d45ff, #ff4d9a);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(141, 69, 255, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control-musica:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(141, 69, 255, 0.6);
+}
+
+.control-musica.pausado {
+  background: linear-gradient(90deg, #555, #777);
+}
+
+@media (max-width: 600px) {
+  .control-musica {
+    bottom: 15px;
+    right: 15px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
       :root {
-        --fondo-1: #090611;
-        --fondo-2: #130a1f;
+        --fondo-1: #0a0520;
+        --fondo-2: #1a0a28;
         --rosa: #ff4d9a;
         --neon: #46d9ff;
         --texto: #fbefff;
@@ -20,11 +55,30 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: var(--texto);
         background:
-          radial-gradient(circle at 20% 10%, rgba(125, 57, 255, 0.24), transparent 38%),
-          radial-gradient(circle at 80% 15%, rgba(70, 217, 255, 0.18), transparent 35%),
-          linear-gradient(180deg, var(--fondo-1), var(--fondo-2));
+          radial-gradient(circle at 15% 20%, rgba(70, 100, 255, 0.3), transparent 40%),
+          radial-gradient(circle at 85% 25%, rgba(255, 77, 154, 0.28), transparent 42%),
+          radial-gradient(circle at 50% 80%, rgba(125, 57, 255, 0.22), transparent 45%),
+          linear-gradient(135deg, #0a0520 0%, #1a0a28 50%, #150a22 100%);
+        background-size: 400% 400%;
+        animation: fondoMovimiento 15s ease infinite;
         overflow-x: hidden;
       }
+
+      @keyframes fondoMovimiento {
+        0%, 100% {
+          background-position: 0% 50%;
+        }
+        25% {
+          background-position: 100% 50%;
+        }
+        50% {
+          background-position: 50% 100%;
+        }
+        75% {
+          background-position: 0% 0%;
+        }
+      }
+
       .capa-animaciones {
         position: fixed;
         inset: 0;
@@ -38,7 +92,7 @@
         height: 14px;
         background: var(--rosa);
         transform: rotate(45deg);
-        animation: subir 8s linear infinite;
+        animation: subir 12s linear infinite;
         opacity: 0.45;
         filter: drop-shadow(0 0 8px rgba(255, 77, 154, 0.6));
         z-index: 2;
@@ -57,7 +111,7 @@
       .icono-serie {
         position: fixed;
         font-size: 1.2rem;
-        animation: caer 9s linear infinite;
+        animation: caer 14s linear infinite;
         opacity: 0.75;
         z-index: 2;
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
@@ -69,19 +123,20 @@
         100% { transform: translateY(-20vh) rotate(45deg) scale(1.2); opacity: 0; }
       }
       @keyframes caer {
-        0% { transform: translateY(-15vh) translateX(0) rotate(0deg); opacity: 0; }
-        10% { opacity: 0.85; }
-        100% { transform: translateY(110vh) translateX(25px) rotate(20deg); opacity: 0; }
+        0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
+        5% { opacity: 0.85; }
+        100% { transform: translateY(110vh) translateX(25px); opacity: 0; }
       }
 
       .contenedor {
         position: relative;
         z-index: 5;
-        width: min(980px, 92vw);
-        margin: 2rem auto 3rem;
+        width: min(980px, 94vw);
+        margin: 1.5rem auto 3rem;
+        padding: 0 0.5rem;
       }
       .intro {
-        min-height: 170px;
+        min-height: 200px;
         margin-bottom: 1.2rem;
         position: relative;
         display: grid;
@@ -92,38 +147,42 @@
         transform: translateY(0) scale(1);
       }
       .intro.stepped .stitch-intro-izq {
-        transform: translateX(-120px) rotate(-7deg);
+        transform: translateX(-58px);
       }
       .intro.stepped .stitch-intro-der {
-        transform: translateX(120px) scaleX(-1) rotate(7deg);
+        transform: translateX(57px);
       }
       .stitch-intro {
         position: absolute;
-        top: 36px;
-        width: clamp(74px, 10vw, 116px);
-        transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        top: 20px;
+        width: clamp(70px, 18vw, 116px);
+        transition: transform 2.5s cubic-bezier(0.22, 1, 0.36, 1) 0s,
+                    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 4.5s;
         filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.34));
       }
       .stitch-intro-izq {
-        transform: translateX(-10px);
+        transform: translateX(-120px);
       }
       .stitch-intro-der {
-        transform: translateX(10px) scaleX(-1);
+        transform: translateX(120px);
       }
       .intro-mensaje {
         margin: 0;
-        margin-top: 98px;
+        margin-top: 140px;
         opacity: 0;
         transform: translateY(10px) scale(0.98);
-        transition: opacity 0.65s ease 0.7s, transform 0.65s ease 0.7s;
+        transition: opacity 0.65s ease 5.8s, transform 0.65s ease 5.8s;
         color: #ffd9f2;
         text-shadow: 0 0 16px rgba(255, 77, 154, 0.45);
+        font-size: clamp(1rem, 4vw, 1.3rem);
+        padding: 0 1rem;
+        text-align: center;
       }
       .carta {
-        background: rgba(16, 10, 30, 0.82);
+        background: rgba(16, 10, 30, 0.85);
         border: 1px solid rgba(125, 57, 255, 0.55);
-        border-radius: 24px;
-        padding: 2rem;
+        border-radius: 20px;
+        padding: clamp(1.2rem, 4vw, 2rem);
         text-align: center;
         box-shadow: 0 15px 60px rgba(0, 0, 0, 0.55), 0 0 28px rgba(125, 57, 255, 0.35);
         backdrop-filter: blur(8px);
@@ -132,106 +191,182 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
+        gap: clamp(0.5rem, 2vw, 1rem);
         flex-wrap: wrap;
       }
       .stitch {
-        width: clamp(72px, 9vw, 110px);
+        width: clamp(60px, 15vw, 10px);
         height: auto;
         filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2));
       }
       .stitch-rosa {
-        filter: hue-rotate(290deg) saturate(1.8) brightness(1.15)
-          drop-shadow(0 0 12px rgba(255, 77, 154, 0.4));
+         width: clamp(60px, 15vw, 10px);
+        height: auto;
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2));
       }
       h1 {
         margin: 0;
-        font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+        font-size: clamp(1.4rem, 5vw, 3.1rem);
         color: #ffd2f0;
         text-shadow: 0 0 18px rgba(255, 77, 154, 0.45);
+        line-height: 1.3;
+        padding: 0 0.5rem;
       }
-      .subtitulo { margin-top: 0.6rem; color: var(--neon); font-weight: 700; }
+      .subtitulo { 
+        margin-top: 0.6rem; 
+        color: var(--neon); 
+        font-weight: 700;
+        font-size: clamp(0.85rem, 3vw, 1rem);
+        padding: 0 0.5rem;
+      }
       .mensaje {
         margin: 1.4rem auto;
         max-width: 64ch;
         line-height: 1.7;
         color: var(--texto-suave);
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        padding: 0 0.5rem;
       }
       .contador {
         margin: 1.2rem auto;
         width: fit-content;
-        padding: 0.8rem 1rem;
+        max-width: 90%;
+        padding: clamp(0.6rem, 2vw, 0.8rem) clamp(0.8rem, 3vw, 1rem);
         border-radius: 12px;
         border: 1px dashed var(--rosa);
         background: rgba(255, 77, 154, 0.08);
         color: #ffe7f5;
         font-weight: 600;
+        font-size: clamp(0.85rem, 3vw, 1rem);
       }
       .boton {
         margin-top: 0.6rem;
         border: 0;
         border-radius: 999px;
-        padding: 0.82rem 1.3rem;
+        padding: clamp(0.7rem, 2.5vw, 0.82rem) clamp(1rem, 4vw, 1.3rem);
         background: linear-gradient(90deg, #8d45ff, #ff4d9a);
         color: #fff;
         font-weight: 700;
         cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-size: clamp(0.9rem, 3vw, 1rem);
       }
-      .frase-con-foto { margin-top: 1rem; }
+      .boton:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(141, 69, 255, 0.4);
+      }
+      .frase-con-foto { 
+        margin-top: 2rem;
+      }
       .detalle {
-        min-height: 1.4rem;
-        margin-top: 0.2rem;
+        min-height: 2rem;
+        margin: 0 auto 1rem;
+        max-width: 500px;
+        padding: clamp(0.8rem, 3vw, 1rem) clamp(1rem, 4vw, 1.5rem);
         color: #ffe2f1;
-        font-weight: 700;
+        font-weight: 600;
+        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+        background: rgba(255, 77, 154, 0.12);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 77, 154, 0.3);
+        text-shadow: 0 0 10px rgba(255, 77, 154, 0.3);
+        line-height: 1.6;
       }
       .foto-frase {
-        margin: 0.8rem auto 0;
-        width: min(520px, 92%);
+        margin: 0 auto;
+        width: 100%;
+        max-width: 520px;
         border-radius: 16px;
         border: 1px solid rgba(70, 217, 255, 0.35);
         overflow: hidden;
         background: rgba(8, 5, 18, 0.75);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .foto-frase img {
         width: 100%;
-        height: clamp(190px, 35vw, 340px);
-        object-fit: cover;
+        max-height: 600px;
+        object-fit: contain;
         display: block;
       }
-      .foto-frase p { margin: 0; padding: 0.55rem 0.8rem; color: #d7f7ff; font-size: 0.9rem; }
-      .firma { margin-top: 1.1rem; color: #e6d8ff; font-style: italic; }
+      .firma { 
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #e6d8ff; 
+        font-style: italic;
+        font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+
+      /* Ajustes específicos para móvil */
+      @media (max-width: 600px) {
+        .intro {
+          min-height: 180px;
+        }
+        .stitch-intro {
+          top: 15px;
+        }
+        .intro-mensaje {
+          margin-top: 130px;
+        }
+        .intro.stepped .stitch-intro-izq {
+          transform: translateX(-35px);
+        }
+        .intro.stepped .stitch-intro-der {
+          transform: translateX(35px);
+        }
+        .stitch-intro-izq {
+          transform: translateX(-40px);
+        }
+        .stitch-intro-der {
+          transform: translateX(40px);
+        }
+        .carta {
+          border-radius: 16px;
+        }
+        .foto-frase {
+          border-radius: 12px;
+        }
+      }
     </style>
   </head>
   <body>
+    <audio id="musicaFondo" loop>
+  <source src="fotosSubidas/cancion.mp3" type="audio/mpeg">
+</audio>
+<button id="botonMusica" class="control-musica">
+  🔊 Música
+</button>
     <div class="capa-animaciones" id="capaAnimaciones"></div>
     <main class="contenedor">
       <section class="carta">
         <div class="intro" id="intro">
-          <img class="stitch-intro stitch-intro-izq" src="/fotosSubidas/stich.png" alt="Stitch izquierdo" />
-          <img class="stitch-intro stitch-intro-der" src="/fotosSubidas/angela.png" alt="Stitch derecho" />
-          <h2 class="intro-mensaje">Tú y yo, siempre juntos 💞</h2>
+          <img class="stitch-intro stitch-intro-izq" src="fotosSubidas/angela.png" alt="Stitch izquierdo" />
+          <img class="stitch-intro stitch-intro-der" src="fotosSubidas/stich.png" alt="Stitch derecho" />
+          <h2 class="intro-mensaje">Tú y yo, siempre juntos 💓</h2>
         </div>
 
         <div class="encabezado">
-          <img class="stitch" src="/fotosSubidas/stich.png" alt="Stitch azul a la izquierda" />
-          <h1>Feliz San Valentín, mi amor 💓</h1>
-          <img class="stitch stitch-rosa" src="/fotosSubidas/angela.png" alt="Stitch rosa representativo a la derecha" />
+          <img class="stitch" src="fotosSubidas/stich.png" alt="Stitch azul a la izquierda" />
+          <h2>Feliz San Valentín, mi corazon 💓</h2>
+          <img class="stitch stitch-rosa" src="fotosSubidas/angela.png" alt="Stitch rosa representativo a la derecha" />
         </div>
-        <p class="subtitulo">Nuestro mes 3, versión dark romance + fandom vibes</p>
+        <p class="subtitulo">Feliz Meversario numero 3</p>
 
         <p class="mensaje">
-          Amor, ahora las fotos salen de la carpeta <strong>fotosSubidas/</strong> en la raíz del repositorio.
-          También arreglé la lluvia para que sí se vea: vibes Stranger Things, K-Drama y corazones 💓
+          Conocerte fue una de mis mejores momentos en mi vida, y cada dia a tu lado ha sido un regalo, quiero compartirte fotos que compartimos de nuestro momento juntos 💌
         </p>
 
         <div class="contador" id="contador">Cargando nuestro tiempo juntos...</div>
-        <button class="boton" id="botonFrase">Siguiente frase + foto 💓</button>
+        <button class="boton" id="botonFrase">Siguiente frase💓</button>
 
         <div class="frase-con-foto">
           <p class="detalle" id="detalle"></p>
           <figure class="foto-frase">
             <img id="fotoDetalle" src="" alt="Foto romántica" />
-            <p id="fotoFuente">Fuente: fotosSubidas</p>
           </figure>
         </div>
 
@@ -240,11 +375,47 @@
     </main>
 
     <script>
-      const fechaInicio = new Date("2024-11-14T00:00:00");
-      const hoy = new Date();
-      const diferencia = hoy - fechaInicio;
-      const dias = Math.max(0, Math.floor(diferencia / (1000 * 60 * 60 * 24)));
-      document.getElementById("contador").textContent = `Llevamos ${dias} días de esta historia increíble.`;
+
+        // Control de música
+const musicaFondo = document.getElementById("musicaFondo");
+const botonMusica = document.getElementById("botonMusica");
+let musicaReproduciendo = false;
+
+botonMusica.addEventListener("click", function() {
+  if (musicaReproduciendo) {
+    musicaFondo.pause();
+    botonMusica.textContent = "🔇 Música";
+    botonMusica.classList.add("pausado");
+    musicaReproduciendo = false;
+  } else {
+    musicaFondo.play();
+    botonMusica.textContent = "🔊 Música";
+    botonMusica.classList.remove("pausado");
+    musicaReproduciendo = true;
+  }
+});
+
+
+window.addEventListener('load', function() {
+  musicaFondo.play().then(() => {
+    musicaReproduciendo = true;
+    botonMusica.textContent = "🔊 Música";
+  }).catch(() => {
+  });
+});
+      const fechaInicio = new Date("2025-11-16T00:00:00");
+      
+function actualizarContador() {
+  const hoy = new Date();
+  const diferencia = hoy - fechaInicio;
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+  document.getElementById("contador").textContent = 
+    `Llevamos ${dias} días, ${horas} horas y ${minutos} minutos juntos 💕`;
+}
+actualizarContador();
+setInterval(actualizarContador, 60000);
 
       const frases = [
         "Porque contigo hasta lo simple se vuelve mágico.",
@@ -255,30 +426,41 @@
         "Porque contigo mi corazón late más fuerte 💓"
       ];
 
+    
       const totalFotos = 40;
-      const fotosLocales = Array.from(
-        { length: totalFotos },
-        (_, i) => `fotosSubidas/(${i + 1}).jpeg`
-      );
+      const fotosLocales = [];
+      for (let i = 1; i <= totalFotos; i++) {
+        fotosLocales.push({
+          jpeg: `fotosSubidas/(${i}).jpeg`,
+          jpg: `fotosSubidas/(${i}).jpg`
+        });
+      }
 
       let indice = 0;
       const detalle = document.getElementById("detalle");
       const fotoDetalle = document.getElementById("fotoDetalle");
-      const fotoFuente = document.getElementById("fotoFuente");
 
-      function mostrarFraseConFoto() {
-        const frase = frases[indice % frases.length];
-        const foto = fotosLocales[indice % fotosLocales.length];
-        detalle.textContent = frase;
-        fotoDetalle.src = foto;
-        fotoDetalle.alt = `Foto romántica ${indice + 1}`;
-        fotoFuente.textContent = `fotosSubidas/(${(indice % fotosLocales.length) + 1})`;
-        indice += 1;
-      }
+   function mostrarFraseConFoto() {
+  const indiceAleatorioFrase = Math.floor(Math.random() * frases.length);
+  const indiceAleatorioFoto = Math.floor(Math.random() * fotosLocales.length);
+  
+  const frase = frases[indiceAleatorioFrase];
+  const fotoObj = fotosLocales[indiceAleatorioFoto];
+  
+  detalle.textContent = frase;
+  
+  // Intentar primero con .jpeg
+  fotoDetalle.src = fotoObj.jpeg;
+  fotoDetalle.alt = `Nuestro momento especial`;
+  
+  // Si falla .jpeg, intentar con .jpg
+  fotoDetalle.onerror = function() {
+    if (this.src.endsWith('.jpeg')) {
+      this.src = fotoObj.jpg;
+    }
+  };}
 
-      fotoDetalle.addEventListener("error", () => {
-        fotoFuente.textContent = "No encontré esa foto. Revisa que existan como fotosSubidas/(1).jpeg, (2).jpeg...";
-      });
+    
 
       document.getElementById("botonFrase").addEventListener("click", mostrarFraseConFoto);
       mostrarFraseConFoto();
@@ -293,20 +475,20 @@
         const corazon = document.createElement("span");
         corazon.className = "corazon";
         corazon.style.left = `${Math.random() * 100}vw`;
-        corazon.style.animationDelay = `${Math.random() * 8}s`;
-        corazon.style.animationDuration = `${6 + Math.random() * 6}s`;
+        corazon.style.animationDelay = `${Math.random() * 12}s`;
+        corazon.style.animationDuration = `${10 + Math.random() * 8}s`;
         corazon.style.opacity = `${0.2 + Math.random() * 0.45}`;
         capaAnimaciones.appendChild(corazon);
       }
 
-      const iconosSeries = ["🔦", "🚲", "🧇", "🇰🇷", "🎬", "💘", "💓", "🌧️", "🫶", "✨"];
+      const iconosSeries = ["Te quiero", "💓","muuuuuucho","mucho","como la vaca","🐮"];
       for (let i = 0; i < 34; i++) {
         const icono = document.createElement("span");
         icono.className = "icono-serie";
         icono.textContent = iconosSeries[Math.floor(Math.random() * iconosSeries.length)];
         icono.style.left = `${Math.random() * 100}vw`;
-        icono.style.animationDelay = `${Math.random() * 9}s`;
-        icono.style.animationDuration = `${7 + Math.random() * 7}s`;
+        icono.style.animationDelay = `${Math.random() * 5}s`;
+        icono.style.animationDuration = `${11 + Math.random() * 9}s`;
         icono.style.fontSize = `${0.95 + Math.random() * 1.1}rem`;
         capaAnimaciones.appendChild(icono);
       }
