@@ -5,41 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3 Meses Contigo 💓</title>
     <style>
-        /* Botón de control de música */
-.control-musica {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  padding: 0.8rem 1.2rem;
-  border: 0;
-  border-radius: 50px;
-  background: linear-gradient(90deg, #8d45ff, #ff4d9a);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(141, 69, 255, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+      /* Botón de control de música */
+      .control-musica {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        padding: 0.8rem 1.2rem;
+        border: 0;
+        border-radius: 50px;
+        background: linear-gradient(90deg, #8d45ff, #ff4d9a);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(141, 69, 255, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
 
-.control-musica:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(141, 69, 255, 0.6);
-}
+      .control-musica:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(141, 69, 255, 0.6);
+      }
 
-.control-musica.pausado {
-  background: linear-gradient(90deg, #555, #777);
-}
+      .control-musica.pausado {
+        background: linear-gradient(90deg, #555, #777);
+      }
 
-@media (max-width: 600px) {
-  .control-musica {
-    bottom: 15px;
-    right: 15px;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-}
+      /* Botón de corazones */
+      .boton-corazones {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+        padding: 0.8rem 1.2rem;
+        border: 0;
+        border-radius: 50px;
+        background: linear-gradient(90deg, #ff4d9a, #ff6b6b);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(255, 77, 154, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .boton-corazones:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 25px rgba(255, 77, 154, 0.6);
+      }
+
+      .boton-corazones:active {
+        transform: translateY(0) scale(0.95);
+      }
+
+      /* Corazones lanzados */
+      .corazon-lanzado {
+        position: fixed;
+        font-size: 2rem;
+        pointer-events: none;
+        z-index: 999;
+        animation: volarCorazon 2s ease-out forwards;
+      }
+
+      @keyframes volarCorazon {
+        0% {
+          transform: translateY(0) scale(1) rotate(0deg);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-150px) scale(1.5) rotate(180deg);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-300px) scale(0.3) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Efecto de pulso en el fondo con música */
+      body.pulsando {
+        animation: fondoMovimiento 15s ease infinite, pulsoBeat 0.5s ease;
+      }
+
+      @keyframes pulsoBeat {
+        0%, 100% {
+          filter: brightness(1);
+        }
+        50% {
+          filter: brightness(1.2) saturate(1.3);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .control-musica {
+          bottom: 15px;
+          right: 15px;
+          padding: 0.6rem 1rem;
+          font-size: 0.9rem;
+        }
+        
+        .boton-corazones {
+          bottom: 15px;
+          left: 15px;
+          padding: 0.6rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
       :root {
         --fondo-1: #0a0520;
         --fondo-2: #1a0a28;
@@ -62,6 +135,7 @@
         background-size: 400% 400%;
         animation: fondoMovimiento 15s ease infinite;
         overflow-x: hidden;
+        transition: filter 0.3s ease;
       }
 
       @keyframes fondoMovimiento {
@@ -335,11 +409,15 @@
   </head>
   <body>
     <audio id="musicaFondo" loop>
-  <source src="fotosSubidas/cancion.mp3" type="audio/mpeg">
-</audio>
-<button id="botonMusica" class="control-musica">
-  🔊 Música
-</button>
+      <source src="fotosSubidas/cancion.mp3" type="audio/mpeg">
+    </audio>
+    <button id="botonMusica" class="control-musica">
+      🔊 Música
+    </button>
+    <button id="botonCorazones" class="boton-corazones">
+      💕 Corazones
+    </button>
+    
     <div class="capa-animaciones" id="capaAnimaciones"></div>
     <main class="contenedor">
       <section class="carta">
@@ -375,48 +453,144 @@
     </main>
 
     <script>
+      // Control de música
+      const musicaFondo = document.getElementById("musicaFondo");
+      const botonMusica = document.getElementById("botonMusica");
+      let musicaReproduciendo = false;
+      let audioContext;
+      let analyser;
+      let dataArray;
+      let audioInicializado = false;
 
-        // Control de música
-const musicaFondo = document.getElementById("musicaFondo");
-const botonMusica = document.getElementById("botonMusica");
-let musicaReproduciendo = false;
+      // Inicializar analizador de audio para sincronizar con el ritmo
+      function inicializarAnalizadorAudio() {
+        if (!audioInicializado) {
+          try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            const source = audioContext.createMediaElementSource(musicaFondo);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+            audioInicializado = true;
+            detectarRitmo();
+          } catch (error) {
+            console.log("No se pudo inicializar el analizador de audio");
+          }
+        }
+      }
 
-botonMusica.addEventListener("click", function() {
-  if (musicaReproduciendo) {
-    musicaFondo.pause();
-    botonMusica.textContent = "🔇 Música";
-    botonMusica.classList.add("pausado");
-    musicaReproduciendo = false;
-  } else {
-    musicaFondo.play();
-    botonMusica.textContent = "🔊 Música";
-    botonMusica.classList.remove("pausado");
-    musicaReproduciendo = true;
-  }
-});
+      // Detectar ritmo de la música
+      function detectarRitmo() {
+        if (!audioInicializado) return;
+        
+        analyser.getByteFrequencyData(dataArray);
+        
+        // Calcular promedio de frecuencias bajas (graves/beats)
+        const bass = dataArray.slice(0, 10).reduce((sum, val) => sum + val, 0) / 10;
+        
+        // Si hay un beat fuerte, hacer pulsar el fondo
+        if (bass > 180 && musicaReproduciendo) {
+          document.body.classList.add('pulsando');
+          setTimeout(() => {
+            document.body.classList.remove('pulsando');
+          }, 500);
+        }
+        
+        requestAnimationFrame(detectarRitmo);
+      }
 
+      botonMusica.addEventListener("click", function() {
+        if (musicaReproduciendo) {
+          musicaFondo.pause();
+          botonMusica.textContent = "🔇 Música";
+          botonMusica.classList.add("pausado");
+          musicaReproduciendo = false;
+        } else {
+          if (!audioInicializado) {
+            inicializarAnalizadorAudio();
+          }
+          musicaFondo.play().then(() => {
+            botonMusica.textContent = "🔊 Música";
+            botonMusica.classList.remove("pausado");
+            musicaReproduciendo = true;
+            if (audioContext && audioContext.state === 'suspended') {
+              audioContext.resume();
+            }
+          }).catch((error) => {
+            console.log("Error al reproducir música:", error);
+          });
+        }
+      });
 
-window.addEventListener('load', function() {
-  musicaFondo.play().then(() => {
-    musicaReproduciendo = true;
-    botonMusica.textContent = "🔊 Música";
-  }).catch(() => {
-  });
-});
+      window.addEventListener('load', function() {
+        // Intentar reproducir automáticamente
+        musicaFondo.play().then(() => {
+          musicaReproduciendo = true;
+          botonMusica.textContent = "🔊 Música";
+          inicializarAnalizadorAudio();
+        }).catch(() => {
+          // Autoplay bloqueado por el navegador
+          botonMusica.textContent = "🔇 Música";
+        });
+      });
+
+      // Botón de corazones
+      const botonCorazones = document.getElementById("botonCorazones");
+      const corazonesEmojis = ["💕", "💗", "💖", "💝", "💘", "❤️", "💓", "💞"];
+
+      botonCorazones.addEventListener("click", function() {
+        // Lanzar múltiples corazones
+        for (let i = 0; i < 8; i++) {
+          setTimeout(() => {
+            lanzarCorazon();
+          }, i * 100);
+        }
+      });
+
+      function lanzarCorazon() {
+        const corazon = document.createElement("div");
+        corazon.className = "corazon-lanzado";
+        corazon.textContent = corazonesEmojis[Math.floor(Math.random() * corazonesEmojis.length)];
+        
+        // Posición inicial cerca del botón
+        corazon.style.left = `${30 + Math.random() * 80}px`;
+        corazon.style.bottom = "20px";
+        
+        // Variación en la animación
+        const duracion = 1.5 + Math.random() * 1;
+        corazon.style.animationDuration = `${duracion}s`;
+        
+        // Agregar rotación aleatoria
+        const rotacion = -20 + Math.random() * 40;
+        corazon.style.setProperty('--rotacion-inicial', `${rotacion}deg`);
+        
+        document.body.appendChild(corazon);
+        
+        // Eliminar después de la animación
+        setTimeout(() => {
+          corazon.remove();
+        }, duracion * 1000);
+      }
+
+      // Contador de tiempo
       const fechaInicio = new Date("2025-11-16T00:00:00");
       
-function actualizarContador() {
-  const hoy = new Date();
-  const diferencia = hoy - fechaInicio;
-  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-  document.getElementById("contador").textContent = 
-    `Llevamos ${dias} días, ${horas} horas y ${minutos} minutos juntos 💕`;
-}
-actualizarContador();
-setInterval(actualizarContador, 60000);
+      function actualizarContador() {
+        const hoy = new Date();
+        const diferencia = hoy - fechaInicio;
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById("contador").textContent = 
+          `Llevamos ${dias} días, ${horas} horas y ${minutos} minutos juntos 💕`;
+      }
+      actualizarContador();
+      setInterval(actualizarContador, 60000);
 
+      // Frases románticas
       const frases = [
         "Porque contigo hasta lo simple se vuelve mágico.",
         "Porque eres mi paz en los días difíciles.",
@@ -426,7 +600,7 @@ setInterval(actualizarContador, 60000);
         "Porque contigo mi corazón late más fuerte 💓"
       ];
 
-    
+      // Array de fotos
       const totalFotos = 40;
       const fotosLocales = [];
       for (let i = 1; i <= totalFotos; i++) {
@@ -436,41 +610,60 @@ setInterval(actualizarContador, 60000);
         });
       }
 
-      let indice = 0;
+      // Arrays para evitar repeticiones
+      let fotosDisponibles = [...fotosLocales];
+      let frasesDisponibles = [...frases];
+
       const detalle = document.getElementById("detalle");
       const fotoDetalle = document.getElementById("fotoDetalle");
 
-   function mostrarFraseConFoto() {
-  const indiceAleatorioFrase = Math.floor(Math.random() * frases.length);
-  const indiceAleatorioFoto = Math.floor(Math.random() * fotosLocales.length);
-  
-  const frase = frases[indiceAleatorioFrase];
-  const fotoObj = fotosLocales[indiceAleatorioFoto];
-  
-  detalle.textContent = frase;
-  
-  // Intentar primero con .jpeg
-  fotoDetalle.src = fotoObj.jpeg;
-  fotoDetalle.alt = `Nuestro momento especial`;
-  
-  // Si falla .jpeg, intentar con .jpg
-  fotoDetalle.onerror = function() {
-    if (this.src.endsWith('.jpeg')) {
-      this.src = fotoObj.jpg;
-    }
-  };}
-
-    
+      function mostrarFraseConFoto() {
+        // Si se acabaron las fotos, reiniciar el array
+        if (fotosDisponibles.length === 0) {
+          fotosDisponibles = [...fotosLocales];
+        }
+        
+        // Si se acabaron las frases, reiniciar el array
+        if (frasesDisponibles.length === 0) {
+          frasesDisponibles = [...frases];
+        }
+        
+        // Seleccionar aleatoriamente de los disponibles
+        const indiceFrase = Math.floor(Math.random() * frasesDisponibles.length);
+        const indiceFoto = Math.floor(Math.random() * fotosDisponibles.length);
+        
+        const frase = frasesDisponibles[indiceFrase];
+        const fotoObj = fotosDisponibles[indiceFoto];
+        
+        // Remover del array para no repetir
+        frasesDisponibles.splice(indiceFrase, 1);
+        fotosDisponibles.splice(indiceFoto, 1);
+        
+        detalle.textContent = frase;
+        
+        // Intentar primero con .jpeg
+        fotoDetalle.src = fotoObj.jpeg;
+        fotoDetalle.alt = `Nuestro momento especial`;
+        
+        // Si falla .jpeg, intentar con .jpg
+        fotoDetalle.onerror = function() {
+          if (this.src.endsWith('.jpeg')) {
+            this.src = fotoObj.jpg;
+          }
+        };
+      }
 
       document.getElementById("botonFrase").addEventListener("click", mostrarFraseConFoto);
       mostrarFraseConFoto();
 
+      // Animaciones de fondo
       const capaAnimaciones = document.getElementById("capaAnimaciones");
 
       setTimeout(() => {
         document.getElementById("intro").classList.add("stepped");
       }, 350);
 
+      // Corazones flotantes
       for (let i = 0; i < 36; i++) {
         const corazon = document.createElement("span");
         corazon.className = "corazon";
@@ -481,7 +674,8 @@ setInterval(actualizarContador, 60000);
         capaAnimaciones.appendChild(corazon);
       }
 
-      const iconosSeries = ["Te quiero", "💓","muuuuuucho","mucho","como la vaca","🐮"];
+      // Iconos de texto flotantes
+      const iconosSeries = ["Te quiero", "💓", "muuuuuucho", "mucho", "como la vaca", "🐮"];
       for (let i = 0; i < 34; i++) {
         const icono = document.createElement("span");
         icono.className = "icono-serie";
