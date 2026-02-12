@@ -255,18 +255,11 @@
         "Porque contigo mi corazón late más fuerte 💓"
       ];
 
-      const fotosLocales = [
-        "fotosSubidas/1.jpg",
-        "fotosSubidas/2.jpg",
-        "fotosSubidas/3.jpg",
-        "fotosSubidas/4.jpg",
-        "fotosSubidas/5.jpg",
-        "fotosSubidas/6.jpg",
-        "fotosSubidas/7.jpg",
-        "fotosSubidas/8.jpg",
-        "fotosSubidas/9.jpg",
-        "fotosSubidas/10.jpg"
-      ];
+      const totalFotos = 40;
+      const fotosLocales = Array.from(
+        { length: totalFotos },
+        (_, i) => `fotosSubidas/(${i + 1}).jpeg`
+      );
 
       let indice = 0;
       const detalle = document.getElementById("detalle");
@@ -279,12 +272,12 @@
         detalle.textContent = frase;
         fotoDetalle.src = foto;
         fotoDetalle.alt = `Foto romántica ${indice + 1}`;
-        fotoFuente.textContent = `fotosSubidas • Foto ${indice + 1}`;
+        fotoFuente.textContent = `fotosSubidas/(${(indice % fotosLocales.length) + 1}).jpeg`;
         indice += 1;
       }
 
       fotoDetalle.addEventListener("error", () => {
-        fotoFuente.textContent = "No encontré esa foto. Verifica nombres dentro de fotosSubidas/";
+        fotoFuente.textContent = "No encontré esa foto. Revisa que existan como fotosSubidas/(1).jpeg, (2).jpeg...";
       });
 
       document.getElementById("botonFrase").addEventListener("click", mostrarFraseConFoto);
