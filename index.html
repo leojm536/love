@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3 Meses Contigo 💓</title>
+    <style>
+      :root {
+        --fondo-1: #090611;
+        --fondo-2: #130a1f;
+        --rosa: #ff4d9a;
+        --neon: #46d9ff;
+        --texto: #fbefff;
+        --texto-suave: #d7c8ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--texto);
+        background:
+          radial-gradient(circle at 20% 10%, rgba(125, 57, 255, 0.24), transparent 38%),
+          radial-gradient(circle at 80% 15%, rgba(70, 217, 255, 0.18), transparent 35%),
+          linear-gradient(180deg, var(--fondo-1), var(--fondo-2));
+        overflow-x: hidden;
+      }
+      .corazon {
+        position: fixed;
+        width: 14px;
+        height: 14px;
+        background: var(--rosa);
+        transform: rotate(45deg);
+        animation: subir 8s linear infinite;
+        opacity: 0.45;
+        filter: drop-shadow(0 0 8px rgba(255, 77, 154, 0.6));
+        z-index: 0;
+      }
+      .corazon::before, .corazon::after {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: inherit;
+      }
+      .corazon::before { left: -7px; }
+      .corazon::after { top: -7px; }
+
+      .icono-serie {
+        position: fixed;
+        font-size: 1.2rem;
+        animation: caer 9s linear infinite;
+        opacity: 0.75;
+        z-index: 1;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+      }
+
+      @keyframes subir {
+        0% { transform: translateY(110vh) rotate(45deg) scale(0.8); opacity: 0; }
+        20% { opacity: 0.6; }
+        100% { transform: translateY(-20vh) rotate(45deg) scale(1.2); opacity: 0; }
+      }
+      @keyframes caer {
+        0% { transform: translateY(-15vh) translateX(0) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.85; }
+        100% { transform: translateY(110vh) translateX(25px) rotate(20deg); opacity: 0; }
+      }
+
+      .contenedor {
+        position: relative;
+        z-index: 5;
+        width: min(980px, 92vw);
+        margin: 2rem auto 3rem;
+      }
+      .carta {
+        background: rgba(16, 10, 30, 0.82);
+        border: 1px solid rgba(125, 57, 255, 0.55);
+        border-radius: 24px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.55), 0 0 28px rgba(125, 57, 255, 0.35);
+        backdrop-filter: blur(8px);
+      }
+      .encabezado {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .stitch {
+        width: clamp(72px, 9vw, 110px);
+        height: auto;
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2));
+      }
+      .stitch-rosa {
+        filter: hue-rotate(290deg) saturate(1.8) brightness(1.15)
+          drop-shadow(0 0 12px rgba(255, 77, 154, 0.4));
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+        color: #ffd2f0;
+        text-shadow: 0 0 18px rgba(255, 77, 154, 0.45);
+      }
+      .subtitulo { margin-top: 0.6rem; color: var(--neon); font-weight: 700; }
+      .mensaje {
+        margin: 1.4rem auto;
+        max-width: 64ch;
+        line-height: 1.7;
+        color: var(--texto-suave);
+      }
+      .contador {
+        margin: 1.2rem auto;
+        width: fit-content;
+        padding: 0.8rem 1rem;
+        border-radius: 12px;
+        border: 1px dashed var(--rosa);
+        background: rgba(255, 77, 154, 0.08);
+        color: #ffe7f5;
+        font-weight: 600;
+      }
+      .boton {
+        margin-top: 0.6rem;
+        border: 0;
+        border-radius: 999px;
+        padding: 0.82rem 1.3rem;
+        background: linear-gradient(90deg, #8d45ff, #ff4d9a);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .frase-con-foto { margin-top: 1rem; }
+      .detalle {
+        min-height: 1.4rem;
+        margin-top: 0.2rem;
+        color: #ffe2f1;
+        font-weight: 700;
+      }
+      .foto-frase {
+        margin: 0.8rem auto 0;
+        width: min(520px, 92%);
+        border-radius: 16px;
+        border: 1px solid rgba(70, 217, 255, 0.35);
+        overflow: hidden;
+        background: rgba(8, 5, 18, 0.75);
+      }
+      .foto-frase img {
+        width: 100%;
+        height: clamp(190px, 35vw, 340px);
+        object-fit: cover;
+        display: block;
+      }
+      .foto-frase p { margin: 0; padding: 0.55rem 0.8rem; color: #d7f7ff; font-size: 0.9rem; }
+      .mini-guia {
+        margin: 1rem auto 0;
+        text-align: left;
+        max-width: 700px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 77, 154, 0.25);
+        border-radius: 12px;
+        padding: 0.8rem 0.9rem;
+        color: #d7c8ff;
+        font-size: 0.9rem;
+      }
+      .mini-guia code {
+        color: #fff;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0.1rem 0.3rem;
+        border-radius: 6px;
+      }
+      .firma { margin-top: 1.1rem; color: #e6d8ff; font-style: italic; }
+    </style>
+  </head>
+  <body>
+    <main class="contenedor">
+      <section class="carta">
+        <div class="encabezado">
+          <img class="stitch" src="https://upload.wikimedia.org/wikipedia/en/9/9e/Stitch_%28Lilo_%26_Stitch%29.svg" alt="Stitch azul a la izquierda" />
+          <h1>Feliz San Valentín, mi amor 💓</h1>
+          <img class="stitch stitch-rosa" src="https://upload.wikimedia.org/wikipedia/en/9/9e/Stitch_%28Lilo_%26_Stitch%29.svg" alt="Stitch rosa representativo a la derecha" />
+        </div>
+        <p class="subtitulo">Nuestro mes 3, versión dark romance + fandom vibes</p>
+
+        <p class="mensaje">
+          Amor, ahora las fotos salen automáticamente de tu carpeta de Drive y se mezclan
+          con cada frase. Además caen íconos de series: Stranger Things, K-Drama y Death Game.
+        </p>
+
+        <div class="contador" id="contador">Cargando nuestro tiempo juntos...</div>
+        <button class="boton" id="botonFrase">Siguiente frase + foto 💓</button>
+
+        <div class="frase-con-foto">
+          <p class="detalle" id="detalle"></p>
+          <figure class="foto-frase">
+            <img id="fotoDetalle" src="" alt="Foto romántica" />
+            <p id="fotoFuente">Fuente: Google Drive</p>
+          </figure>
+        </div>
+
+        <div class="mini-guia">
+          <strong>Cómo quedó:</strong>
+          <ul>
+            <li>Se usa tu carpeta de Drive: <code>19-iwlL-COyz9lAkXXwY6XbO_x4mmAmMX</code>.</li>
+            <li>Ya no tienes que poner imagen por imagen en el HTML.</li>
+            <li>Si agregas nuevas fotos, te puedo actualizar el listado automático cuando quieras.</li>
+          </ul>
+        </div>
+
+        <p class="firma">Con todo mi amor, hoy y siempre. ❤️</p>
+      </section>
+    </main>
+
+    <script>
+      const fechaInicio = new Date("2024-11-14T00:00:00");
+      const hoy = new Date();
+      const diferencia = hoy - fechaInicio;
+      const dias = Math.max(0, Math.floor(diferencia / (1000 * 60 * 60 * 24)));
+      document.getElementById("contador").textContent = `Llevamos ${dias} días de esta historia increíble.`;
+
+      const frases = [
+        "Porque contigo hasta lo simple se vuelve mágico.",
+        "Porque eres mi paz en los días difíciles.",
+        "Porque me haces reír cuando más lo necesito.",
+        "Porque tus abrazos son mi lugar seguro.",
+        "Porque eres mi persona favorita en este mundo.",
+        "Porque contigo mi corazón late más fuerte 💓"
+      ];
+
+      const driveImageIds = [
+        "1X3-H6f0SZ3wEZeA7A_S7J9MlUUUFWOeC","1SQlpkSsxVfi-ZDDeoAzP7WsMRsuj8fui","1zNxYPxED2hQLZ9qDMQ11NS35XfJ0Q_4s","1jll_e5H2IFl98CU7fTvN32J6_DkmDRJL","1cnYHqvh4xv3kTqVAUDirrvVW701z2NXn","1LcKLjiQqI8hBb-Ss7R8i3iDKTbXWyqj4","1MWMX_eRXKJvT2hqTC5Ppt8yH20JdQok-","1AWzgmBBBzuFzvAqG7gtirWLuOsz9jcei","1dqCHPuGN5lOBhx7eHvu_ZfpPZYgqyhhC","1Ch3FtT-P51ZUZMQHYUKZmPADj3htBjOQ",
+        "1zTHNTDE5MO3otxDOgrBJKR7nrPj1AXl_","1UVX36d_oPK-pQ1RWGp9AuThD-H1_5YgH","1Fx8GG7rqp0cfsM8-b_FlhoNoWuUs-ses","1JiEup_kV10h55XApbUTkohoTrONP5UW2","1gQi3BkjjI6hW5R_Xon-8sRHEOoGgTrh-","12z_53R53UsG8S9evMNMOdlxSxXqj38TI","1UguY6J_AowasBLiW9p1JFPElS3UZgsYD","1iHHz6KntqMMYyqMLJg5sUU4hZupkpPnu","19hmIkqVgrpE9_SVBZcoTp0sOCinwmpyB","13CA36tN1XI8WeEEihyOWdlbMxyl43WVh",
+        "1ra8u4MiKISplKhPIhloS8g5zFZk2JFmq","13YKZUIND_vAiinXvdNxqAFJwON_Xc1Cs","1SItpRh-gWUwLGEmMJTqvOBDonznN3kLN","1jSXf9n1jnz5Zdjs6YTczpYXT33OQ04rh","1JzVCtpqlrI-GlxS5IggY_JlVc5gTXdKr","111SYFvjQc2jkhADbUOqkKb5Ez8WPh7iN","1OjG1PHiL7afD2pu9BQUeMCbXX22N1AKO","1DiDUQB7genRsNFNBQo1nTn2FycjvQxOi","1XmY9PJ-XnIvMxFPtH0HQ2Vo-sk59M1qI","1RvmCGx4egZMehw38eO_B7-O9i5M774MT",
+        "1hpWIqBNRTVkeZmnpH7wRruNuJJy3Y0DX","1_a0AzifYFI5GZqOZ3kMFsJ0bLFaVYMTT","1xTp8p8cqTPwVnLU3vLA-ZRP4C36J81rY","1tvddhjEUXutOtndQTVfKVnBSgf9yLGR5","1ENDvOwaYpShcWa5QlCz8VHeV3Ub91zUU","1YKG2piuwrvoUECJNM_ySPbYaK1sFIeZ9","1VnPNjn5s-XqTXw5SSZASfUWfjkavVRy7","1k9arBq3JEY1EyHe4MEctHwYM71KlmlS1","1AMcIKlJkSDbOwW6zOuuXDwh36xvxnekK","1RAUNXt3PvV-_ECzvGm0_yzNArvsECN1c"
+      ];
+
+      const fotosDrive = driveImageIds.map((id) => `https://drive.google.com/uc?export=view&id=${id}`);
+
+      let indice = 0;
+      const detalle = document.getElementById("detalle");
+      const fotoDetalle = document.getElementById("fotoDetalle");
+      const fotoFuente = document.getElementById("fotoFuente");
+
+      function mostrarFraseConFoto() {
+        const frase = frases[indice % frases.length];
+        const foto = fotosDrive[indice % fotosDrive.length];
+        detalle.textContent = frase;
+        fotoDetalle.src = foto;
+        fotoDetalle.alt = `Foto romántica ${indice + 1}`;
+        fotoFuente.textContent = `Google Drive • Foto ${indice + 1}`;
+        indice += 1;
+      }
+
+      document.getElementById("botonFrase").addEventListener("click", mostrarFraseConFoto);
+      mostrarFraseConFoto();
+
+      for (let i = 0; i < 28; i++) {
+        const corazon = document.createElement("span");
+        corazon.className = "corazon";
+        corazon.style.left = `${Math.random() * 100}vw`;
+        corazon.style.animationDelay = `${Math.random() * 8}s`;
+        corazon.style.animationDuration = `${6 + Math.random() * 6}s`;
+        corazon.style.opacity = `${0.2 + Math.random() * 0.45}`;
+        document.body.appendChild(corazon);
+      }
+
+      const iconosSeries = ["🔦", "🚲", "🧇", "🇰🇷", "🎬", "💘", "🎮", "☠️", "🦑"];
+      for (let i = 0; i < 24; i++) {
+        const icono = document.createElement("span");
+        icono.className = "icono-serie";
+        icono.textContent = iconosSeries[Math.floor(Math.random() * iconosSeries.length)];
+        icono.style.left = `${Math.random() * 100}vw`;
+        icono.style.animationDelay = `${Math.random() * 9}s`;
+        icono.style.animationDuration = `${7 + Math.random() * 7}s`;
+        document.body.appendChild(icono);
+      }
+    </script>
+  </body>
+</html>
