@@ -25,6 +25,13 @@
           linear-gradient(180deg, var(--fondo-1), var(--fondo-2));
         overflow-x: hidden;
       }
+      .capa-animaciones {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        overflow: hidden;
+      }
       .corazon {
         position: fixed;
         width: 14px;
@@ -34,7 +41,7 @@
         animation: subir 8s linear infinite;
         opacity: 0.45;
         filter: drop-shadow(0 0 8px rgba(255, 77, 154, 0.6));
-        z-index: 0;
+        z-index: 2;
       }
       .corazon::before, .corazon::after {
         content: "";
@@ -52,7 +59,7 @@
         font-size: 1.2rem;
         animation: caer 9s linear infinite;
         opacity: 0.75;
-        z-index: 1;
+        z-index: 2;
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
       }
 
@@ -72,6 +79,45 @@
         z-index: 5;
         width: min(980px, 92vw);
         margin: 2rem auto 3rem;
+      }
+      .intro {
+        min-height: 170px;
+        margin-bottom: 1.2rem;
+        position: relative;
+        display: grid;
+        place-items: center;
+      }
+      .intro.stepped .intro-mensaje {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      .intro.stepped .stitch-intro-izq {
+        transform: translateX(-120px) rotate(-7deg);
+      }
+      .intro.stepped .stitch-intro-der {
+        transform: translateX(120px) scaleX(-1) rotate(7deg);
+      }
+      .stitch-intro {
+        position: absolute;
+        top: 36px;
+        width: clamp(74px, 10vw, 116px);
+        transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.34));
+      }
+      .stitch-intro-izq {
+        transform: translateX(-10px);
+      }
+      .stitch-intro-der {
+        transform: translateX(10px) scaleX(-1);
+      }
+      .intro-mensaje {
+        margin: 0;
+        margin-top: 98px;
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+        transition: opacity 0.65s ease 0.7s, transform 0.65s ease 0.7s;
+        color: #ffd9f2;
+        text-shadow: 0 0 16px rgba(255, 77, 154, 0.45);
       }
       .carta {
         background: rgba(16, 10, 30, 0.82);
@@ -153,29 +199,19 @@
         display: block;
       }
       .foto-frase p { margin: 0; padding: 0.55rem 0.8rem; color: #d7f7ff; font-size: 0.9rem; }
-      .mini-guia {
-        margin: 1rem auto 0;
-        text-align: left;
-        max-width: 700px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 77, 154, 0.25);
-        border-radius: 12px;
-        padding: 0.8rem 0.9rem;
-        color: #d7c8ff;
-        font-size: 0.9rem;
-      }
-      .mini-guia code {
-        color: #fff;
-        background: rgba(0, 0, 0, 0.3);
-        padding: 0.1rem 0.3rem;
-        border-radius: 6px;
-      }
       .firma { margin-top: 1.1rem; color: #e6d8ff; font-style: italic; }
     </style>
   </head>
   <body>
+    <div class="capa-animaciones" id="capaAnimaciones"></div>
     <main class="contenedor">
       <section class="carta">
+        <div class="intro" id="intro">
+          <img class="stitch-intro stitch-intro-izq" src="https://upload.wikimedia.org/wikipedia/en/9/9e/Stitch_%28Lilo_%26_Stitch%29.svg" alt="Stitch izquierdo" />
+          <img class="stitch-intro stitch-intro-der" src="https://upload.wikimedia.org/wikipedia/en/9/9e/Stitch_%28Lilo_%26_Stitch%29.svg" alt="Stitch derecho" />
+          <h2 class="intro-mensaje">Tú y yo, siempre juntos 💞</h2>
+        </div>
+
         <div class="encabezado">
           <img class="stitch" src="https://upload.wikimedia.org/wikipedia/en/9/9e/Stitch_%28Lilo_%26_Stitch%29.svg" alt="Stitch azul a la izquierda" />
           <h1>Feliz San Valentín, mi amor 💓</h1>
@@ -184,8 +220,8 @@
         <p class="subtitulo">Nuestro mes 3, versión dark romance + fandom vibes</p>
 
         <p class="mensaje">
-          Amor, ahora las fotos salen automáticamente de tu carpeta de Drive y se mezclan
-          con cada frase. Además caen íconos de series: Stranger Things, K-Drama y Death Game.
+          Amor, ahora las fotos salen de la carpeta <strong>fotosSubidas/</strong> en la raíz del repositorio.
+          También arreglé la lluvia para que sí se vea: vibes Stranger Things, K-Drama y corazones 💓
         </p>
 
         <div class="contador" id="contador">Cargando nuestro tiempo juntos...</div>
@@ -195,17 +231,8 @@
           <p class="detalle" id="detalle"></p>
           <figure class="foto-frase">
             <img id="fotoDetalle" src="" alt="Foto romántica" />
-            <p id="fotoFuente">Fuente: Google Drive</p>
+            <p id="fotoFuente">Fuente: fotosSubidas</p>
           </figure>
-        </div>
-
-        <div class="mini-guia">
-          <strong>Cómo quedó:</strong>
-          <ul>
-            <li>Se usa tu carpeta de Drive: <code>19-iwlL-COyz9lAkXXwY6XbO_x4mmAmMX</code>.</li>
-            <li>Ya no tienes que poner imagen por imagen en el HTML.</li>
-            <li>Si agregas nuevas fotos, te puedo actualizar el listado automático cuando quieras.</li>
-          </ul>
         </div>
 
         <p class="firma">Con todo mi amor, hoy y siempre. ❤️</p>
@@ -228,14 +255,18 @@
         "Porque contigo mi corazón late más fuerte 💓"
       ];
 
-      const driveImageIds = [
-        "1X3-H6f0SZ3wEZeA7A_S7J9MlUUUFWOeC","1SQlpkSsxVfi-ZDDeoAzP7WsMRsuj8fui","1zNxYPxED2hQLZ9qDMQ11NS35XfJ0Q_4s","1jll_e5H2IFl98CU7fTvN32J6_DkmDRJL","1cnYHqvh4xv3kTqVAUDirrvVW701z2NXn","1LcKLjiQqI8hBb-Ss7R8i3iDKTbXWyqj4","1MWMX_eRXKJvT2hqTC5Ppt8yH20JdQok-","1AWzgmBBBzuFzvAqG7gtirWLuOsz9jcei","1dqCHPuGN5lOBhx7eHvu_ZfpPZYgqyhhC","1Ch3FtT-P51ZUZMQHYUKZmPADj3htBjOQ",
-        "1zTHNTDE5MO3otxDOgrBJKR7nrPj1AXl_","1UVX36d_oPK-pQ1RWGp9AuThD-H1_5YgH","1Fx8GG7rqp0cfsM8-b_FlhoNoWuUs-ses","1JiEup_kV10h55XApbUTkohoTrONP5UW2","1gQi3BkjjI6hW5R_Xon-8sRHEOoGgTrh-","12z_53R53UsG8S9evMNMOdlxSxXqj38TI","1UguY6J_AowasBLiW9p1JFPElS3UZgsYD","1iHHz6KntqMMYyqMLJg5sUU4hZupkpPnu","19hmIkqVgrpE9_SVBZcoTp0sOCinwmpyB","13CA36tN1XI8WeEEihyOWdlbMxyl43WVh",
-        "1ra8u4MiKISplKhPIhloS8g5zFZk2JFmq","13YKZUIND_vAiinXvdNxqAFJwON_Xc1Cs","1SItpRh-gWUwLGEmMJTqvOBDonznN3kLN","1jSXf9n1jnz5Zdjs6YTczpYXT33OQ04rh","1JzVCtpqlrI-GlxS5IggY_JlVc5gTXdKr","111SYFvjQc2jkhADbUOqkKb5Ez8WPh7iN","1OjG1PHiL7afD2pu9BQUeMCbXX22N1AKO","1DiDUQB7genRsNFNBQo1nTn2FycjvQxOi","1XmY9PJ-XnIvMxFPtH0HQ2Vo-sk59M1qI","1RvmCGx4egZMehw38eO_B7-O9i5M774MT",
-        "1hpWIqBNRTVkeZmnpH7wRruNuJJy3Y0DX","1_a0AzifYFI5GZqOZ3kMFsJ0bLFaVYMTT","1xTp8p8cqTPwVnLU3vLA-ZRP4C36J81rY","1tvddhjEUXutOtndQTVfKVnBSgf9yLGR5","1ENDvOwaYpShcWa5QlCz8VHeV3Ub91zUU","1YKG2piuwrvoUECJNM_ySPbYaK1sFIeZ9","1VnPNjn5s-XqTXw5SSZASfUWfjkavVRy7","1k9arBq3JEY1EyHe4MEctHwYM71KlmlS1","1AMcIKlJkSDbOwW6zOuuXDwh36xvxnekK","1RAUNXt3PvV-_ECzvGm0_yzNArvsECN1c"
+      const fotosLocales = [
+        "fotosSubidas/1.jpg",
+        "fotosSubidas/2.jpg",
+        "fotosSubidas/3.jpg",
+        "fotosSubidas/4.jpg",
+        "fotosSubidas/5.jpg",
+        "fotosSubidas/6.jpg",
+        "fotosSubidas/7.jpg",
+        "fotosSubidas/8.jpg",
+        "fotosSubidas/9.jpg",
+        "fotosSubidas/10.jpg"
       ];
-
-      const fotosDrive = driveImageIds.map((id) => `https://drive.google.com/uc?export=view&id=${id}`);
 
       let indice = 0;
       const detalle = document.getElementById("detalle");
@@ -244,36 +275,47 @@
 
       function mostrarFraseConFoto() {
         const frase = frases[indice % frases.length];
-        const foto = fotosDrive[indice % fotosDrive.length];
+        const foto = fotosLocales[indice % fotosLocales.length];
         detalle.textContent = frase;
         fotoDetalle.src = foto;
         fotoDetalle.alt = `Foto romántica ${indice + 1}`;
-        fotoFuente.textContent = `Google Drive • Foto ${indice + 1}`;
+        fotoFuente.textContent = `fotosSubidas • Foto ${indice + 1}`;
         indice += 1;
       }
+
+      fotoDetalle.addEventListener("error", () => {
+        fotoFuente.textContent = "No encontré esa foto. Verifica nombres dentro de fotosSubidas/";
+      });
 
       document.getElementById("botonFrase").addEventListener("click", mostrarFraseConFoto);
       mostrarFraseConFoto();
 
-      for (let i = 0; i < 28; i++) {
+      const capaAnimaciones = document.getElementById("capaAnimaciones");
+
+      setTimeout(() => {
+        document.getElementById("intro").classList.add("stepped");
+      }, 350);
+
+      for (let i = 0; i < 36; i++) {
         const corazon = document.createElement("span");
         corazon.className = "corazon";
         corazon.style.left = `${Math.random() * 100}vw`;
         corazon.style.animationDelay = `${Math.random() * 8}s`;
         corazon.style.animationDuration = `${6 + Math.random() * 6}s`;
         corazon.style.opacity = `${0.2 + Math.random() * 0.45}`;
-        document.body.appendChild(corazon);
+        capaAnimaciones.appendChild(corazon);
       }
 
-      const iconosSeries = ["🔦", "🚲", "🧇", "🇰🇷", "🎬", "💘", "🎮", "☠️", "🦑"];
-      for (let i = 0; i < 24; i++) {
+      const iconosSeries = ["🔦", "🚲", "🧇", "🇰🇷", "🎬", "💘", "💓", "🌧️", "🫶", "✨"];
+      for (let i = 0; i < 34; i++) {
         const icono = document.createElement("span");
         icono.className = "icono-serie";
         icono.textContent = iconosSeries[Math.floor(Math.random() * iconosSeries.length)];
         icono.style.left = `${Math.random() * 100}vw`;
         icono.style.animationDelay = `${Math.random() * 9}s`;
         icono.style.animationDuration = `${7 + Math.random() * 7}s`;
-        document.body.appendChild(icono);
+        icono.style.fontSize = `${0.95 + Math.random() * 1.1}rem`;
+        capaAnimaciones.appendChild(icono);
       }
     </script>
   </body>
