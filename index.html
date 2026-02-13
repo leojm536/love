@@ -176,6 +176,17 @@
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
       }
 
+      .gif-cayendo {
+        position: fixed;
+        width: clamp(50px, 12vw, 80px);
+        height: auto;
+        animation: caer 14s linear infinite;
+        opacity: 0.8;
+        z-index: 2;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        border-radius: 8px;
+      }
+
       @keyframes subir {
         0% { transform: translateY(110vh) rotate(45deg) scale(0.8); opacity: 0; }
         20% { opacity: 0.6; }
@@ -360,7 +371,6 @@
         line-height: 1.5;
       }
 
-      /* Ajustes específicos para móvil */
       @media (max-width: 600px) {
         .intro {
           min-height: 180px;
@@ -378,10 +388,10 @@
           transform: translateX(35px);
         }
         .stitch-intro-izq {
-          transform: translateX(-40px);
+          transform: translateX(-120px);
         }
         .stitch-intro-der {
-          transform: translateX(40px);
+          transform: translateX(120px);
         }
         .carta {
           border-radius: 16px;
@@ -438,7 +448,6 @@
     </main>
 
     <script>
-      // Control de música
       const musicaFondo = document.getElementById("musicaFondo");
       const botonMusica = document.getElementById("botonMusica");
       let musicaReproduciendo = false;
@@ -461,22 +470,20 @@
       });
 
       window.addEventListener('load', function() {
-        // Intentar reproducir automáticamente
         musicaFondo.play().then(() => {
           musicaReproduciendo = true;
           botonMusica.textContent = "🔊 Música";
         }).catch(() => {
-          // Autoplay bloqueado por el navegador
           botonMusica.textContent = "🔇 Música";
         });
       });
 
-      // Botón de corazones
+   
       const botonCorazones = document.getElementById("botonCorazones");
-      const corazonesEmojis = ["💕", "💗", "💖", "💝", "💘", "❤️", "💓", "💞"];
+      const corazonesEmojis = ["💕", "❤️", "💓",];
 
       botonCorazones.addEventListener("click", function() {
-        // Lanzar múltiples corazones
+      
         for (let i = 0; i < 8; i++) {
           setTimeout(() => {
             lanzarCorazon();
@@ -489,27 +496,27 @@
         corazon.className = "corazon-lanzado";
         corazon.textContent = corazonesEmojis[Math.floor(Math.random() * corazonesEmojis.length)];
         
-        // Posición inicial cerca del botón
+       
         corazon.style.left = `${30 + Math.random() * 80}px`;
         corazon.style.bottom = "20px";
         
-        // Variación en la animación
+       
         const duracion = 1.5 + Math.random() * 1;
         corazon.style.animationDuration = `${duracion}s`;
         
-        // Agregar rotación aleatoria
+        
         const rotacion = -20 + Math.random() * 40;
         corazon.style.setProperty('--rotacion-inicial', `${rotacion}deg`);
         
         document.body.appendChild(corazon);
         
-        // Eliminar después de la animación
+        
         setTimeout(() => {
           corazon.remove();
         }, duracion * 1000);
       }
 
-      // Contador de tiempo
+      
       const fechaInicio = new Date("2025-11-16T00:00:00");
       
       function actualizarContador() {
@@ -524,7 +531,7 @@
       actualizarContador();
       setInterval(actualizarContador, 60000);
 
-      // Frases románticas
+    
       const frases = [
         "Porque contigo hasta lo simple se vuelve mágico.",
         "Porque eres mi paz en los días difíciles.",
@@ -534,8 +541,8 @@
         "Porque contigo mi corazón late más fuerte 💓"
       ];
 
-      // Array de fotos
-      const totalFotos = 40;
+     
+      const totalFotos = 37;
       const fotosLocales = [];
       for (let i = 1; i <= totalFotos; i++) {
         fotosLocales.push({
@@ -544,7 +551,7 @@
         });
       }
 
-      // Arrays para evitar repeticiones
+    
       let fotosDisponibles = [...fotosLocales];
       let frasesDisponibles = [...frases];
 
@@ -552,24 +559,24 @@
       const fotoDetalle = document.getElementById("fotoDetalle");
 
       function mostrarFraseConFoto() {
-        // Si se acabaron las fotos, reiniciar el array
+    
         if (fotosDisponibles.length === 0) {
           fotosDisponibles = [...fotosLocales];
         }
         
-        // Si se acabaron las frases, reiniciar el array
+      
         if (frasesDisponibles.length === 0) {
           frasesDisponibles = [...frases];
         }
         
-        // Seleccionar aleatoriamente de los disponibles
+   
         const indiceFrase = Math.floor(Math.random() * frasesDisponibles.length);
         const indiceFoto = Math.floor(Math.random() * fotosDisponibles.length);
         
         const frase = frasesDisponibles[indiceFrase];
         const fotoObj = fotosDisponibles[indiceFoto];
         
-        // Remover del array para no repetir
+     
         frasesDisponibles.splice(indiceFrase, 1);
         fotosDisponibles.splice(indiceFoto, 1);
         
@@ -590,14 +597,14 @@
       document.getElementById("botonFrase").addEventListener("click", mostrarFraseConFoto);
       mostrarFraseConFoto();
 
-      // Animaciones de fondo
+   
       const capaAnimaciones = document.getElementById("capaAnimaciones");
 
       setTimeout(() => {
         document.getElementById("intro").classList.add("stepped");
       }, 350);
 
-      // Corazones flotantes
+  
       for (let i = 0; i < 36; i++) {
         const corazon = document.createElement("span");
         corazon.className = "corazon";
@@ -608,9 +615,9 @@
         capaAnimaciones.appendChild(corazon);
       }
 
-      // Iconos de texto flotantes
+    
       const iconosSeries = ["Te quiero", "💓", "muuuuuucho", "mucho", "como la vaca", "🐮"];
-      for (let i = 0; i < 34; i++) {
+      for (let i = 0; i < 24; i++) {
         const icono = document.createElement("span");
         icono.className = "icono-serie";
         icono.textContent = iconosSeries[Math.floor(Math.random() * iconosSeries.length)];
@@ -619,6 +626,20 @@
         icono.style.animationDuration = `${11 + Math.random() * 9}s`;
         icono.style.fontSize = `${0.95 + Math.random() * 1.1}rem`;
         capaAnimaciones.appendChild(icono);
+      }
+
+     
+      const totalGifs = 5;
+      for (let i = 0; i < 15; i++) {
+        const gif = document.createElement("img");
+        gif.className = "gif-cayendo";
+        const numGif = Math.floor(Math.random() * totalGifs) + 1;
+        gif.src = `fotosSubidas/${numGif}.gif`;
+        gif.style.left = `${Math.random() * 100}vw`;
+        gif.style.animationDelay = `${Math.random() * 5}s`;
+        gif.style.animationDuration = `${12 + Math.random() * 8}s`;
+        gif.style.width = `${50 + Math.random() * 30}px`;
+        capaAnimaciones.appendChild(gif);
       }
     </script>
   </body>
