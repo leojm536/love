@@ -83,20 +83,6 @@
         }
       }
 
-      /* Efecto de pulso en el fondo con música */
-      body.pulsando {
-        animation: fondoMovimiento 15s ease infinite, pulsoBeat 0.5s ease;
-      }
-
-      @keyframes pulsoBeat {
-        0%, 100% {
-          filter: brightness(1);
-        }
-        50% {
-          filter: brightness(1.2) saturate(1.3);
-        }
-      }
-
       @media (max-width: 600px) {
         .control-musica {
           bottom: 15px;
@@ -135,7 +121,6 @@
         background-size: 400% 400%;
         animation: fondoMovimiento 15s ease infinite;
         overflow-x: hidden;
-        transition: filter 0.3s ease;
       }
 
       @keyframes fondoMovimiento {
@@ -457,50 +442,6 @@
       const musicaFondo = document.getElementById("musicaFondo");
       const botonMusica = document.getElementById("botonMusica");
       let musicaReproduciendo = false;
-      let audioContext;
-      let analyser;
-      let dataArray;
-      let audioInicializado = false;
-
-      // Inicializar analizador de audio para sincronizar con el ritmo
-      function inicializarAnalizadorAudio() {
-        if (!audioInicializado) {
-          try {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            const source = audioContext.createMediaElementSource(musicaFondo);
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
-            analyser.fftSize = 256;
-            const bufferLength = analyser.frequencyBinCount;
-            dataArray = new Uint8Array(bufferLength);
-            audioInicializado = true;
-            detectarRitmo();
-          } catch (error) {
-            console.log("No se pudo inicializar el analizador de audio");
-          }
-        }
-      }
-
-      // Detectar ritmo de la música
-      function detectarRitmo() {
-        if (!audioInicializado) return;
-        
-        analyser.getByteFrequencyData(dataArray);
-        
-        // Calcular promedio de frecuencias bajas (graves/beats)
-        const bass = dataArray.slice(0, 10).reduce((sum, val) => sum + val, 0) / 10;
-        
-        // Si hay un beat fuerte, hacer pulsar el fondo
-        if (bass > 180 && musicaReproduciendo) {
-          document.body.classList.add('pulsando');
-          setTimeout(() => {
-            document.body.classList.remove('pulsando');
-          }, 500);
-        }
-        
-        requestAnimationFrame(detectarRitmo);
-      }
 
       botonMusica.addEventListener("click", function() {
         if (musicaReproduciendo) {
@@ -509,16 +450,10 @@
           botonMusica.classList.add("pausado");
           musicaReproduciendo = false;
         } else {
-          if (!audioInicializado) {
-            inicializarAnalizadorAudio();
-          }
           musicaFondo.play().then(() => {
             botonMusica.textContent = "🔊 Música";
             botonMusica.classList.remove("pausado");
             musicaReproduciendo = true;
-            if (audioContext && audioContext.state === 'suspended') {
-              audioContext.resume();
-            }
           }).catch((error) => {
             console.log("Error al reproducir música:", error);
           });
@@ -530,7 +465,6 @@
         musicaFondo.play().then(() => {
           musicaReproduciendo = true;
           botonMusica.textContent = "🔊 Música";
-          inicializarAnalizadorAudio();
         }).catch(() => {
           // Autoplay bloqueado por el navegador
           botonMusica.textContent = "🔇 Música";
